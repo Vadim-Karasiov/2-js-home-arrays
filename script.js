@@ -64,25 +64,37 @@ var showUser = function(user){
 };
 
 var autorization = function(){
-    var mail = prompt('Введи имейл свой');
+    var mail = prompt('Введи имейл');
     var pass = prompt('Теперь пароль');
-    
-    var indexArr = users.map(function(user, idx){
-        if(mail === user.email) {
-            if(pass === user.password && mail === user.email) {
-                return idx;
-            } 
-        } 
-    });
-    var userIndex = indexArr.filter(function(number) {
-        return number >= 0;
-    })[0];
 
-    if(!users[userIndex]) {
-        alert ('Нет такого сочетания логина и пароля!');
-        // mainMenu();
-    }
+    var userIndex = users.findIndex(function(user) {
+        return pass === user.password && mail === user.email;
+    })
+
+    if (userIndex >= 0) {
         return [users[userIndex], userIndex];
+    } 
+    else {
+        alert('Нет такого сочетания логина и пароля!');
+        return [undefined, undefined];
+    }
+    
+    // var indexArr = users.map(function(user, idx){
+    //     if(mail === user.email) {
+    //         if(pass === user.password && mail === user.email) {
+    //             return idx;
+    //         } 
+    //     } 
+    // });
+
+    // var userIndex = indexArr.filter(function(number) {
+    //     return number >= 0;
+    // })[0];
+
+    // if(!userIndex) {
+    //     alert('Нет такого сочетания логина и пароля!');
+    // }
+    // return [users[userIndex], userIndex];
 };
 
 var userList = function() {
@@ -201,18 +213,23 @@ var mainMenu = function() {
     switch (userChoice) {
         case 'a':
             registration();
+            confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
             break;
         case 'b':
             showUser(autorization()[0]);
+            confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
             break;
         case 'c':
             userList();
+            confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
             break;
         case 'd':
             userChangeAction(autorization()[0]);
+            confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
             break;
         case 'e':
             deleteUser();
+            confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
             break;
         case 'q':
             alert('Прощай мой юный падаван!');
@@ -222,15 +239,6 @@ var mainMenu = function() {
             mainMenu();
             break;
     }
-    // confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
-    var repeat = confirm('Желаешь ли ты продолжить?');
-    if (repeat) {
-        mainMenu();
-    } else {
-        alert('До свидания');
-        return;
-    }
-
 };
 
 mainMenu();
