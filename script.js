@@ -1,6 +1,6 @@
 'use strict';
 
-// alert('Приветствую Юный падаван!')
+alert('Приветствую Юный падаван!');
 var userTempate = {
     name: undefined,
     surname: undefined,
@@ -46,139 +46,191 @@ var registration = function(){
                 newUser.password = prompt('Придумай пароль');
                 break;
             default:
-                confirm('Желаешь ли ты продолжить?') ? menu() : alert('До свидания');
                 break;
         }
     }
 
     users.push(newUser);
-    confirm('Желаешь ли ты продолжить?') ? menu() : alert('До свидания');
+    alert('Пользователь ' + newUser.name + ' ' + newUser.surname + ' успешно добавлен!')
 };
 
 var showUser = function(user){
-    for (var key in user){
-        console.log('['+key+']:' + ' ' + user[key]);
+    if(user) {
+        for (var key in user){
+            console.log('['+key+']:' + ' ' + user[key]);
+        }
+        console.log('-------------------------------');
     }
-    console.log('-------------------------------');
 };
 
 var autorization = function(){
     var mail = prompt('Введи имейл свой');
     var pass = prompt('Теперь пароль');
-
-    users.forEach(function(user){
+    
+    var indexArr = users.map(function(user, idx){
         if(mail === user.email) {
-            if(pass === user.password) {
-                showUser(user);
-            } else {
-                alert('Нет такого сочетания!');
-                confirm('Желаешь ли повторить?') ? autorization() : alert('До свидания');
-            }
+            if(pass === user.password && mail === user.email) {
+                return idx;
+            } 
         } 
-    })
-    confirm('Желаешь ли ты продолжить?') ? menu() : alert('До свидания');
+    });
+    var userIndex = indexArr.filter(function(number) {
+        return number >= 0;
+    })[0];
+
+    if(!users[userIndex]) {
+        alert ('Нет такого сочетания логина и пароля!');
+        // mainMenu();
+    }
+        return [users[userIndex], userIndex];
 };
 
 var userList = function() {
+    if (users.length === 0) {
+        alert('В базе нет пользователей!');
+    }
     users.forEach(function(user){
         showUser(user);
-    });
-    confirm('Желаешь ли ты продолжить?') ? menu() : alert('До свидания');
-}
+    })
+};
 
 var userChangeAction = function(user) {
-    var choise = prompt(
-        'Выбери какое свойство хочешь изменить \n' +
-        'a) Имя \n' + 
-        'b) Фамилию \n' +
-        'c) Возраст\n' +
-        'd) Имейл\n' + 
-        'e) Пароль\n' +
-        'q) Выйти'
-    )
-    
-    switch (choise) {
-        case 'a':
-            user.name = prompt('Впиши имя своё');;
-            break;
-        case 'b':
-            user.surname = prompt('Впиши фамилию свою');
-            break;
-        case 'c':
-            user.age = prompt('Лет тебе сколько?');
-            break;
-        case 'd':
-            user.email = prompt('Адрес электронной почты');
-            break;
-        case 'e':
-            user.password = prompt('Придумай пароль');
-            break;
-        case 'q':
-            alert('Прощай мой юный падаван!');
-            break;
-        default:
-            alert('Падаван, кажется ты не отличаешься умом, постарайся лучше');
-            menu();
-            break;
+    if (user) {
+        var choise = prompt(
+            'Выбери какое свойство хочешь изменить \n' +
+            'a) Имя \n' + 
+            'b) Фамилию \n' +
+            'c) Возраст\n' +
+            'd) Имейл\n' + 
+            'e) Пароль\n' +
+            'q) Выйти'
+        );
+        
+        switch (choise) {
+            case 'a':
+                user.name = prompt('Впиши имя своё');
+                showUser(user);
+                confirm('Желаешь ли еще что то поменять?') ? userChangeAction(user) : mainMenu();
+                break;
+            case 'b':
+                user.surname = prompt('Впиши фамилию свою');
+                showUser(user);
+                confirm('Желаешь ли еще что то поменять?') ? userChangeAction(user) : mainMenu();
+                break;
+            case 'c':
+                user.age = prompt('Лет тебе сколько?');
+                showUser(user);
+                confirm('Желаешь ли еще что то поменять?') ? userChangeAction(user) : mainMenu();
+                break;
+            case 'd':
+                user.email = prompt('Адрес электронной почты');
+                showUser(user);
+                confirm('Желаешь ли еще что то поменять?') ? userChangeAction(user) : mainMenu();
+                break;
+            case 'e':
+                user.password = prompt('Придумай пароль');
+                showUser(user);
+                confirm('Желаешь ли еще что то поменять?') ? userChangeAction(user) : mainMenu();
+                break;
+            case 'q':
+                alert('Изменения сохранены');
+                break;
+            default:
+                alert('Падаван, кажется ты не отличаешься умом, постарайся лучше');
+                mainMenu();
+                break;
+        }
     }
+};
 
-    showUser(user);
-    confirm('Желаешь ли еще что то поменять?') ? userChangeAction(user) : alert('В меню');
-}
+// var userChange = function() {
+//     alert('Для изменения данных надо авторизоваться!');
+//     var mail = prompt('Введи имейл свой');
+//     var pass = prompt('Теперь пароль');
 
-var userChange = function() {
-    alert('Для изменения данных надо авторизоваться!');
-    var mail = prompt('Введи имейл свой');
-    var pass = prompt('Теперь пароль');
+//     users.forEach(function(user){
+//         if(mail === user.email) {
+//             if(pass === user.password) {
+//                 userChangeAction(user);
+//             } else {
+//                 alert('Нет такого сочетания!');
+//                 confirm('Желаешь ли повторить?') ? autorization() : mainMenu();
+//             }
+//         } 
+//     });
+// };
 
-    users.forEach(function(user){
-        if(mail === user.email) {
-            if(pass === user.password) {
-                userChangeAction(user);
-            } else {
-                alert('Нет такого сочетания!');
-                confirm('Желаешь ли повторить?') ? autorization() : alert('Меню');
-            }
-        } 
-    })
-    confirm('Желаешь ли ты продолжить?') ? menu() : alert('До свидания');
-}
+var deleteUser = function() {
+    var userIndexToDel = autorization()[1];
 
-var menu = function() {
+    if (userIndexToDel >= 0) {
+        alert('Пользователь ' + users[userIndexToDel].name + ' успешно удален!');
+        users.splice(userIndexToDel, 1);
+    }
+};
+
+// var deleteUser = function() {
+//     alert('Для изменения данных надо авторизоваться!');
+//     var mail = prompt('Введи имейл свой');
+//     var pass = prompt('Теперь пароль');
+
+//     users.forEach(function(user,idx){
+//         if(mail === user.email) {
+//             if(pass === user.password) {
+//                 users.splice(idx, 1);
+//                 userList();
+//             } else {
+//                 alert('Нет такого сочетания!');
+//                 confirm('Желаешь ли повторить?') ? autorization() : mainMenu();
+//             }
+//         } 
+//     });
+// };
+
+var mainMenu = function() {
     var userChoice = prompt(
         'Выбирай свой путь на темную сторону: \n' +
         'a) Зарегистрируйся \n' + 
         'b) Авторизуйся\n' +
         'c) Посмотри список сторонников\n' +
         'd) Измени свои данные\n' + 
+        'e) Уничтожь пользователя\n' + 
         'q) Уйди и не возвращайся'
-    )
+    );
     
     switch (userChoice) {
         case 'a':
             registration();
             break;
         case 'b':
-            autorization();
+            showUser(autorization()[0]);
             break;
         case 'c':
             userList();
             break;
         case 'd':
-            userChange();
+            userChangeAction(autorization()[0]);
+            break;
+        case 'e':
+            deleteUser();
             break;
         case 'q':
             alert('Прощай мой юный падаван!');
-            break;
+            return;
         default:
             alert('Падаван, кажется ты не отличаешься умом, постарайся лучше');
-            menu();
+            mainMenu();
             break;
     }
-}
-menu();
+    // confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
+    var repeat = confirm('Желаешь ли ты продолжить?');
+    if (repeat) {
+        mainMenu();
+    } else {
+        alert('До свидания');
+        return;
+    }
 
+};
 
-
-
-// console.log('[users]', users);
+mainMenu();
