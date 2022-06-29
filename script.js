@@ -28,27 +28,33 @@ var users = [
 
 var registration = function(){
     var newUser = {};
-    for (var key in userTempate) {
-        switch (key) {
-            case 'name':
-                newUser.name = prompt('Впиши имя своё');
-                break;
-            case 'surname':
-                newUser.surname = prompt('Впиши фамилию свою');
-                break;
-            case 'age':
-                newUser.age = prompt('Лет тебе сколько?');
-                break;
-            case 'email':
-                newUser.email = prompt('Адрес электронной почты');
-                break;
-            case 'password':
-                newUser.password = prompt('Придумай пароль');
-                break;
-            default:
-                break;
-        }
-    }
+
+    newUser.name = prompt('Впиши имя своё');
+    newUser.surname = prompt('Впиши фамилию свою');
+    newUser.age = prompt('Лет тебе сколько?');
+    newUser.email = prompt('Адрес электронной почты');
+    newUser.password = prompt('Придумай пароль');
+    // for (var key in userTempate) { //вот такой вот бред насочинял
+    //     switch (key) {
+    //         case 'name':
+    //             newUser.name = prompt('Впиши имя своё');
+    //             break;
+    //         case 'surname':
+    //             newUser.surname = prompt('Впиши фамилию свою');
+    //             break;
+    //         case 'age':
+    //             newUser.age = prompt('Лет тебе сколько?');
+    //             break;
+    //         case 'email':
+    //             newUser.email = prompt('Адрес электронной почты');
+    //             break;
+    //         case 'password':
+    //             newUser.password = prompt('Придумай пароль');
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
     users.push(newUser);
     alert('Пользователь ' + newUser.name + ' ' + newUser.surname + ' успешно добавлен!')
@@ -79,7 +85,7 @@ var autorization = function(){
         return [undefined, undefined];
     }
     
-    // var indexArr = users.map(function(user, idx){
+    // var indexArr = users.map(function(user, idx){ //проходим по массиву в поисках совпадения логина и пароля, получаем массив с undefined и одним найденым индксом
     //     if(mail === user.email) {
     //         if(pass === user.password && mail === user.email) {
     //             return idx;
@@ -87,14 +93,14 @@ var autorization = function(){
     //     } 
     // });
 
-    // var userIndex = indexArr.filter(function(number) {
+    // var userIndex = indexArr.filter(function(number) { //Фильтруем индекс от undefined и получаем его.
     //     return number >= 0;
     // })[0];
 
     // if(!userIndex) {
     //     alert('Нет такого сочетания логина и пароля!');
     // }
-    // return [users[userIndex], userIndex];
+    // return [users[userIndex], userIndex]; //возвращаем массив с номером индекса и объект под этим индексом
 };
 
 var userList = function() {
