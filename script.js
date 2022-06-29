@@ -26,38 +26,15 @@ var users = [
     }
 ];
 
-var registration = function(){
-    var newUser = {};
+var Registration = function(){
+    this.name = prompt('Впиши имя своё');
+    this.surname = prompt('Впиши фамилию свою');
+    this.age = prompt('Лет тебе сколько?');
+    this.email = prompt('Адрес электронной почты');
+    this.password = prompt('Придумай пароль');
 
-    newUser.name = prompt('Впиши имя своё');
-    newUser.surname = prompt('Впиши фамилию свою');
-    newUser.age = prompt('Лет тебе сколько?');
-    newUser.email = prompt('Адрес электронной почты');
-    newUser.password = prompt('Придумай пароль');
-    // for (var key in userTempate) { //вот такой вот бред насочинял
-    //     switch (key) {
-    //         case 'name':
-    //             newUser.name = prompt('Впиши имя своё');
-    //             break;
-    //         case 'surname':
-    //             newUser.surname = prompt('Впиши фамилию свою');
-    //             break;
-    //         case 'age':
-    //             newUser.age = prompt('Лет тебе сколько?');
-    //             break;
-    //         case 'email':
-    //             newUser.email = prompt('Адрес электронной почты');
-    //             break;
-    //         case 'password':
-    //             newUser.password = prompt('Придумай пароль');
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-
-    users.push(newUser);
-    alert('Пользователь ' + newUser.name + ' ' + newUser.surname + ' успешно добавлен!')
+    users.push(this);
+    alert('Пользователь ' + this.name + ' ' + this.surname + ' успешно добавлен!')
 };
 
 var showUser = function(user){
@@ -218,7 +195,7 @@ var mainMenu = function() {
     
     switch (userChoice) {
         case 'a':
-            registration();
+            new Registration(); //Регистрация нового пользователя конструктором
             confirm('Желаешь ли ты продолжить?') ? mainMenu() : alert('До свидания');
             break;
         case 'b':
